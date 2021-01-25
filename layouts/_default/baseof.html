@@ -57,7 +57,7 @@
         {{ partial "sidenav/main-sidenav.html" . }}
       </div>
 
-      <div class="mainContent-wrapper order-2 order-lg-0 col-12 {{ if eq .Params.disable_toc true}} col-lg-9 {{ else }} col-lg-7 {{end}} main">
+      <div class="mainContent-wrapper order-2 order-lg-0 col-12 {{ if or (eq .Params.disable_toc true) (eq .Params.disable_sidebar true) }} col-lg-9 {{ else }} col-lg-7 {{end}} main">
         <div class="{{ if and (eq $.Section "integrations") (eq $.Kind "page") }}integrations-single{{ end }}"
           id="mainContent">
           {{ block "main" . }}{{ end }}
@@ -65,10 +65,12 @@
         </div>
       </div>
 
-      <aside class="sidebar col-lg-2">
-        {{ partial "language-region-select.html" . }}
-        {{ partial "table-of-contents/table-of-contents.html" . }}
-      </aside>
+      {{ if ne .Params.disable_sidebar true }}
+        <aside class="sidebar col-lg-2">
+          {{ partial "language-region-select.html" . }}
+          {{ partial "table-of-contents/table-of-contents.html" . }}
+        </aside>
+      {{ end }}
     </div>
   </div>
 

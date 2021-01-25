@@ -94,6 +94,7 @@ $ddpurple: #632ca6;
 }
 
 .api {
+    // These are temporary fixes until we refactor the announcement banner.
     .announcement_banner.open ~ .container {
         padding-top: 40px;
 
