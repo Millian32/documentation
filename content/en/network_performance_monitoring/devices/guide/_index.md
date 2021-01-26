@@ -2,7 +2,7 @@
 title: NDM Guides
 kind: guide
 private: true
-disable_toc: true
+disable_sidebar: true
 further_reading:
 - link: "https://www.datadoghq.com/blog/monitor-snmp-with-datadog/"
   tag: "Blog"

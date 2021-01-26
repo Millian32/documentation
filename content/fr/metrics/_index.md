@@ -1,7 +1,7 @@
 ---
 title: Métriques
 kind: documentation
-disable_toc: true
+disable_sidebar: true
 aliases:
   - /fr/graphing/metrics/
 ---

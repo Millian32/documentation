@@ -1,7 +1,7 @@
 ---
 title: Gestion des incidents
 kind: documentation
-disable_toc: true
+disable_sidebar: true
 description: Créer et gérer des incidents
 ---
 {{< img src="monitors/incidents/incidents-top-1.png" alt="Gestion des incidents"  style="width:80%;">}}
