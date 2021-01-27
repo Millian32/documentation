@@ -37,13 +37,13 @@ You can set the timeframe over which traffic is aggregated using the time select
 
 {{< img src="network_performance_monitoring/network_page/npm_timeframe.png" alt="Time frame NPM"  style="width:30%;">}}
 
-### Facet Panels
+### Facet panels
 
 Facet panels mirror the tags in your search bar query. Switch between the facet panels with the _Source_ and _Destination_ tabs on top:
 
 {{< img src="network_performance_monitoring/network_page/destination_panel.png" alt="Destination panel"  style="width:20%;">}}
 
-#### Custom Facets
+#### Custom facets
 
 Aggregate and filter your traffic data by any tags in Datadog network page. A whitelist of tags is provided by default, which you can find in the search bar dropdown menu:
 
@@ -57,7 +57,7 @@ Whitelisted tags include `service`, `availability zone`, `env`, `environment`, `
 
 Once the custom facet is created, use this tag to filter and aggregate traffic in the network page and map. All custom facets can be viewed in the bottom `Custom` section of the facet panels.
 
-## Network Data
+## Network data
 
 {{< img src="network_performance_monitoring/network_page/network_data.png" alt="network data"  style="width:90%;" >}}
 
@@ -72,7 +72,7 @@ Values displayed might be different for `sent_metric(source to destination)` and
 
 ### Metrics
 
-#### Network Load
+#### Network load
 
 The following network load metrics are available:
 
@@ -87,13 +87,13 @@ TCP is a connection-oriented protocol that guarantees in-order delivery of packe
 
 | Metric                    |  Description                                                                                                                           |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| **Retransmits**           | Retransmits represent detected failures that are retransmitted to ensure delivery. Measured in count of retransmits from the `source`. |
-| **Round-trip Time (RTT)** | Round-trip time is a proxy for latency. Measured as the time between a TCP frame being sent and acknowledged.                          |
-|  **RTT Variance**         | RTT is a proxy for jitter.                                                                                                             |
-|  **Established Connections**         | The number of TCP connections in an established state. Measured in connections per second from the `source`.                                                                                                              |
-|  **Closed Connections**         | The number of TCP connections in a closed state. Measured in connections per second from the `source`.                                                                                                            |
+| **TCP Retransmits** | TCP Retransmits represent detected failures that are retransmitted to ensure delivery. Measured in count of retransmits from the `source`. |
+| **TCP Latency** | Measured as TCP smoothed round-trip time, that is the time between a TCP frame being sent and acknowledged. |
+| **TCP Jitter** | Measured as TCP smoothed round-trip time variance. |
+| **Established Connections** | The number of TCP connections in an established state. Measured in connections per second from the `source`. |
+| **Closed Connections** | The number of TCP connections in a closed state. Measured in connections per second from the `source`. |
 
-### DNS Resolution
+### DNS resolution
 
 Starting with Agent 7.17+, the Agent resolves IPs to human-readable domain names for external and internal traffic. Domain allows you to monitor cloud provider endpoints where a Datadog Agent cannot be installed, such as S3 buckets, application load balancers, and APIs. Unrecognizable domain names such as DGA domains from C&C servers may point to network security threats. **Domain is encoded as a tag in Datadog**, so you can use it in search bar queries and the facet panel to aggregate and filter traffic.
 
@@ -113,14 +113,28 @@ To view pre-NAT and post-NAT IPs, use the _Show pre-NAT IPs_ toggle in the table
 
 NPM users may configure their networks to have overlapping IP spaces. For instance, you may want to deploy in multiple VPCs (virtual private clouds) which have overlapping address ranges and communicate only through load balancers or cloud gateways.
 
-To correctly classify traffic destinations, NPM uses the concept of a network ID, which is represented as a tag. A network ID is an alphanumeric identifier for a set of IP addresses that can communicate with one another. When an IP address mapping to several hosts with different network IDs is detected, this identifier is used to determine the particular host network traffic is going to or coming from. 
+To correctly classify traffic destinations, NPM uses the concept of a network ID, which is represented as a tag. A network ID is an alphanumeric identifier for a set of IP addresses that can communicate with one another. When an IP address mapping to several hosts with different network IDs is detected, this identifier is used to determine the particular host network traffic is going to or coming from.
 
 In AWS and GCP, the network ID is automatically set to the VPC ID. For other environments, the network ID may be set manually, either in `datadog.yaml` as shown below, or by adding the `DD_NETWORK_ID` to the process and core Agent containers.
 
-  ```shell 
+  ```shell
   network:
      Id: <your-network-id>
   ```
+
+### Saved views
+
+Organize and share views of traffic data. Saved Views make debugging faster and empower collaboration. For instance, you can create a view, save it for the future for common queries, and copy its link to share network data with your teammates.
+
+{{< img src="network_performance_monitoring/network_page/npm_saved_views.png" alt="Saved Views" >}}
+
+- To save a view: click the *+ Save* button and name the view to record your current query, table configuration, and graph metric selections.
+- To load a view: click *Views* at the top left to see your Saved Views and select a view from the list.
+- To rename a view: hover over a view in the Saved Views list and click the gear icon to *Edit name*.
+- To share a view: hover over a view in the Saved Views list and click the link icon to *Copy permalink*.
+
+To learn more, see our documentation on [Saved Views][1].
+
 
 ## Table
 
@@ -136,7 +150,7 @@ Congifure the traffic shown with the `Filter Traffic` button.
 
 External traffic (to public IPs) and Datadog Agent traffic is shown by default. To narrow down your view, you can choose to toggle off the `Show Datadog Traffic` and `Show External Traffic` toggles.
 
-### Unresolved Traffic
+### Unresolved traffic
 
 Unresolved source and destination tags are marked as `N/A`. A traffic source or destination endpoint may be unresolved because:
 
@@ -168,3 +182,5 @@ The top of the sidepanel displays common source and destination tags shared by t
 ## Further Reading
 
 {{< partial name="whats-next/whats-next.html" >}}
+
+[1]: /logs/explorer/saved_views/
