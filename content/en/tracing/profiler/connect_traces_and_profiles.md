@@ -7,11 +7,73 @@ further_reading:
       text: 'APM Distributed Tracing'
     - link: 'tracing/profiler/getting_started'
       tag: 'Documentation'
-      text: 'Enable continuous profiler for your application.'
+      text: 'Enable Continuous Profiler for Your Application.'
     - link: 'tracing/profiler/intro_to_profiling'
       tag: 'Documentation'
-      text: 'Intro to profiling.'
+      text: 'Introduction to Profiling'
 ---
 
 If your application is showing performance problems in production, it's helpful to connect the distributed trace information from APM with the full profile of the code stack. Application processes that have both APM distributed tracing and continuous profiler enabled are automatically linked, so you can move directly from span information to profiling data on the Code Hotspots tab, and find specific lines of code related to performance issues.
 
+{{< img src="tracing/profiling/code_hotspots_tab.gif" alt="Code Hotspots tab shows profiling information for a APM trace span">}}
+
+## Prerequisites
+
+{{< programming-lang-wrapper langs="java,python" >}}
+{{< programming-lang lang="java" >}}
+For manually instrumented code, Continuous Profiler requires Scope activation of spans:
+```java
+final Span span = tracer.buildSpan("ServicehandlerSpan").start();
+try (final Scope scope = tracer.activateSpan(span)) { // mandatory for Datadog continuous profiler to link with span
+    // worker thread impl
+  } finally {
+    // Step 3: Finish Span when work is complete
+    span.finish();
+  }
+
+```
+{{< /programming-lang >}}
+{{< programming-lang lang="python" >}}
+
+- Requires tracing library version [0.44.0+].
+
+{{< /programming-lang >}}
+{{< /programming-lang-wrapper >}}
+
+## Link from a span to profiling data
+
+From the view of each trace, the Code Hotspots tab highlights profiling data scoped on the selected span
+
+The breakdown view on the left side is a list of types of time spent executing that span. Depending on the runtime and language, this list of types varies:
+
+- **Method durations** shows the overall time taken by each method from your code.
+- **CPU** shows the time taken executing CPU tasks.
+- **Synchronization** shows the time taken waiting for a lock of a synchronized object.
+- **Garbage collection** shows the time taken waiting for the garbage collector to execute.
+- **VM operations** (Java only) shows the time taken waiting for VM operations that are not related to garbage collection (for example, heap dumps).
+- **File I/O** shows the time taken waiting for a disk read/write operation to execute.
+- **Socket I/O** shows the time taken waiting for a network read/write operation to execute.
+- **Object wait** shows the time ...
+
+Click on one of these types to see a corresponding list, ordered by time, of the methods that are taking time. Clicking on the plus `+` will expand the stack trace to that method **in reverse order**.
+
+In the breakdown view, **Other** shows the time taken to execute the span that cannot be explained by profiling data. It is not uncommon to have a small amount of unexplained time (less than 10%). Potential reasons for Other time include:
+
+  - The span you selected isn't directly mapped to any execution. Profiling data is associated uniquely to spans when they are executing on a specific thread. For example, some spans are created/used uniquely as virtual containers of a series of related processing steps and never actually directly associated with any thread execution.
+  - Your application process cannot access CPU resources to execute and is paused. There is no way for profiler to know about competing resources from other processes or containers.
+  - The application is locked in synchronization or in I/O events that are individually lower than 10ms: Java profiler gets data for paused thread events (locks, I/O, parks) that are larger than 10ms. If you want to reduce that threshold, see [link][].
+  - The span you selected is short. Profiling is a sampling mechanism that regularly looks at how your code behaves. There might not be enough representative data for spans shorter than 50ms
+  - Missing instrumentation: Profiling breakdown requires that spans are associated with executing threads by activating these spans in the ScopeManager. Some custom instrumentations don't activate these spans properly and so we can't map them to executing threads. If this span comes from a custom integration you can check [link][] for information on how to improve this.
+
+## View profile from trace
+
+For each type from the breakdown, click **View profile** to view the same data as what is shown in the flame graph.
+Click the **Span/Trace/Full profile** selector to define the scope of the data:
+
+- **Span** scopes the profiling data to the previously selected span.
+- **Trace** scopes the profiling data to all spans of the same service process of the previously selected span.
+- **Full profile** scopes the data to 60 seconds of the whole service process that executed the previously selected span.
+
+## Further reading
+
+{{< partial name="whats-next/whats-next.html" >}}
