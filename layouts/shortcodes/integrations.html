@@ -126,9 +126,6 @@
             {{ end }}
           {{ end }}
 
-        {{ if or (in $src "amazon") (in $src "aws") (in $src "google") (in $src "microsoft") (in $src "azure") }}
-          {{ $src = replace $src "_large" "_small" }}
-        {{ end }}
         {{ $indx := $src }}
 
         {{/* if  $src */}}

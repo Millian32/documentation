@@ -23,7 +23,7 @@ further_reading:
     - link: 'logs/'
       tag: 'Documentation'
       text: 'Log Management'
-integration_id: "adobe-experience-manager"
+integration_id: "adobe"
 ---
 
 ## Overview
