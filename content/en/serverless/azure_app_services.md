@@ -59,7 +59,7 @@ The Datadog .NET APM extension supports the following .NET runtimes in both x64 
 8. Restart the main application: click **Stop**, wait for a full stop, then click **Start**.
     {{< img src="infrastructure/serverless/azure_app_services/restart.png" alt="Stop and restart page" >}}
 
-### Application logging from Azure Web Apps
+### Application logging from Azure web apps
 
 Sending logs from your application in Azure App Services to Datadog requires the use of Serilog. Submitting logs with this method allows for trace ID injection, which makes it possible to connect logs and traces in Datadog. To enable trace ID injection with the extension, add the application setting `DD_LOGS_INJECTION:true`.
 
@@ -138,7 +138,7 @@ In the `Serilog.WriteTo()` array, add an entry for DatadogLogs, for example:
 }
 ```
 
-## Custom Metrics with DogStatsD
+## Custom metrics with DogStatsD
 
 Starting with version `0.3.14-prerelease`, the App Services extension includes an instance of [DogStatsD][6] (Datadog's metrics aggregation service). This enables you to submit custom metrics, service checks, and events directly to Datadog from Azure Web Apps with the extension.
 
