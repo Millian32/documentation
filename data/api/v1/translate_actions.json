@@ -667,8 +667,8 @@
     "summary": "Get one APM service's dependencies"
   },
   "ListSLOs": {
-    "description": "Get multiple service level objective objects by their IDs.",
-    "summary": "Search SLOs"
+    "description": "Get a list of service level objective objects for your organization.",
+    "summary": "Get all SLOs"
   },
   "CreateSLO": {
     "description": "Create a service level objective object.",

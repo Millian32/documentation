@@ -4068,9 +4068,9 @@ api:
       operationids:
         - CreateSLO
       unstable: []
-  - name: Search SLOs
-    url: '#search-slos'
-    identifier: search-slos
+  - name: Get all SLOs
+    url: '#get-all-slos'
+    identifier: get-all-slos
     parent: service-level-objectives
     generated: true
     params:
