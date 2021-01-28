@@ -40,6 +40,14 @@ $ddpurple:    #632CA6;
   a {
     text-decoration: none;
   }
+
+  .sort-marketplace {
+    border:1px solid $ddpurple;
+    color:$ddpurple;
+    &:hover {
+      color:#fff;
+    }
+  }
 }
 
 .integration-tiles {
@@ -150,6 +158,11 @@ $ddpurple:    #632CA6;
     }
   }
 
+  /* lower go button on marketplace */
+  .cat-marketplace .card .card-button .btn-container {
+    bottom: 23px !important;
+  }
+
   div:nth-child(odd) .card {
     margin-right:9px;
     margin-left:0;
@@ -224,7 +237,7 @@ $ddpurple:    #632CA6;
     .cat-marketplace {
       &:hover {
         .card-title {
-          padding-top: 0.75rem !important;
+          padding:0.75rem 0 0 0 !important;
         }
       }
     }
