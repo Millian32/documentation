@@ -8,7 +8,7 @@ further_reading:
   text: "How to Send Logs to Datadog via External Log Shippers?"
 ---
 
-## What is Metrics without Limits&trade;? 
+## What is Metrics without Limits&trade;?
 
 Metrics without Limits&trade; provides you with the ability to customize tagging on all metric types in-app without having to redeploy or change any code. With Metrics without Limits&trade;, you’ll be able to customize tagging to drop in-app host-level tags attached to application-level or business metrics. This functionality will be located in the [Metrics Summary][1] page.
 
