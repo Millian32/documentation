@@ -1,5 +1,8 @@
 {{ $dot := . }}
 
+{{ $imagesJSON := getJSON "https://s3.amazonaws.com/origin-static-assets/websites-integrations/images.json" }}
+{{ $integrationLogosList := index $imagesJSON "integrationLogosList" | default slice }}
+
 <!-- From data file -->
 {{ $kind := "integration" }}
 {{ if eq .Site.Language.Lang "ja"}}
@@ -128,8 +131,15 @@
 
         {{ $indx := $src }}
 
-        {{/* if  $src */}}
-        {{/* if and $indx (fileExists (print "static/" $src)) */}}
+        {{ $nameWithoutVariant := replace $indx "_large.svg" "" }}
+        {{ $imageExists := false }}
+        {{ range $basename := $integrationLogosList }}
+          {{ if eq $nameWithoutVariant $basename }}
+            {{ $imageExists = true }}
+          {{ end }}
+        {{ end }}
+
+        {{ if $imageExists }}
             {{ if $formatname }}
             <div id="mixid_{{$i}}" class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2-4 mix text-center {{ range $i, $e := $v.Params.categories }} cat-{{ replace $e "/" "" | urlize }} {{ end }}" data-id="{{ $i }}" data-ref="item">
                 <div id="{{ $v.Params.name | default ($urlname | lower) }}" class="card">
@@ -186,6 +196,8 @@
                 </div>
             </div>
             {{ end }}
-        {{/* end */}}
+        {{ else }}
+           {{ warnf "integration image missing in manifest for %q" $indx }}
+        {{ end }}
     {{ end }}
 </div>
