@@ -42,7 +42,7 @@ try (final Scope scope = tracer.activateSpan(span)) { // mandatory for Datadog c
 
 ## Link from a span to profiling data
 
-From the view of each trace, the Code Hotspots tab highlights profiling data scoped on the selected span
+From the view of each trace, the Code Hotspots tab highlights profiling data scoped on the selected span.
 
 The breakdown view on the left side is a list of types of time spent executing that span. Depending on the runtime and language, this list of types varies:
 
@@ -54,10 +54,11 @@ The breakdown view on the left side is a list of types of time spent executing t
 - **File I/O** shows the time taken waiting for a disk read/write operation to execute.
 - **Socket I/O** shows the time taken waiting for a network read/write operation to execute.
 - **Object wait** shows the time ...
+- **Other** shows the time taken to execute the span that cannot be explained by profiling data.
 
 Click on one of these types to see a corresponding list, ordered by time, of the methods that are taking time. Clicking on the plus `+` will expand the stack trace to that method **in reverse order**.
 
-In the breakdown view, **Other** shows the time taken to execute the span that cannot be explained by profiling data. It is not uncommon to have a small amount of unexplained time (less than 10%). Potential reasons for Other time include:
+It is not uncommon to have a small amount of **Other** unexplained time (less than 10%). Potential reasons for Other time include:
 
   - The span you selected isn't directly mapped to any execution. Profiling data is associated uniquely to spans when they are executing on a specific thread. For example, some spans are created/used uniquely as virtual containers of a series of related processing steps and never actually directly associated with any thread execution.
   - Your application process cannot access CPU resources to execute and is paused. There is no way for profiler to know about competing resources from other processes or containers.
@@ -65,7 +66,9 @@ In the breakdown view, **Other** shows the time taken to execute the span that c
   - The span you selected is short. Profiling is a sampling mechanism that regularly looks at how your code behaves. There might not be enough representative data for spans shorter than 50ms
   - Missing instrumentation: Profiling breakdown requires that spans are associated with executing threads by activating these spans in the ScopeManager. Some custom instrumentations don't activate these spans properly and so we can't map them to executing threads. If this span comes from a custom integration you can check [link][] for information on how to improve this.
 
-## View profile from trace
+## Viewing a profile from a trace
+
+{{< img src="tracing/profiling/flamgraph_view.gif" alt="Opening a view of the profile in a flame graph">}}
 
 For each type from the breakdown, click **View profile** to view the same data as what is shown in the flame graph.
 Click the **Span/Trace/Full profile** selector to define the scope of the data:
